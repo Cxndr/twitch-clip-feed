@@ -1,3 +1,5 @@
+ - remove duplicates from clips array.
+    - happens when we get get same clip from both streamerlist and gamelist.
 - instead of getting clips and sorting by views:
     - get way more clips.
     - figure out average views for channel.

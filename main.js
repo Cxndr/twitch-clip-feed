@@ -18,11 +18,13 @@ let streamerList =
 
 ]
 let streamerData = [];
-let gameList = 
+let gamesData = [];
+let gamesList = 
 [
     "World of Warcraft",
     "League of Legends",
-    "Just Chatting"
+    "Starcraft 2"
+    //"Just Chatting"
 ]
 
 // settings
@@ -131,6 +133,39 @@ const setStreamersInfo = async () =>
     }
 
 }
+const setGamesInfo = async () =>
+{
+    try
+    {
+        let paramStr;
+        for (let i=0; i < gamesList.length; i++)
+        {
+            if (i>0) paramStr += "&";
+            paramStr += "name=" + gamesList[i];
+        }
+        const url = "https://api.twitch.tv/helix/games?" + new URLSearchParams(paramStr);
+        const response = await fetch
+        (
+            url,
+            {
+                headers:
+                {
+                    "Authorization": `Bearer ${twitchAuthToken}`,
+                    "Client-Id": twitchClientID
+                }
+            }
+        );
+        const responseJSON = await response.json();
+        gamesData = responseJSON.data;
+        console.log(gamesData);
+    }
+    catch (err)
+    {
+        console.log("failed getting games info");
+        console.error(err);
+    }
+
+}
 
 const getClipsStreamer = async (id) =>
 {
@@ -166,6 +201,7 @@ const getClipsStreamer = async (id) =>
     }
 }
 
+
 const getClipsStreamers = async () =>
 {
     for (var i=0; i < streamerData.length; i++)
@@ -174,6 +210,54 @@ const getClipsStreamers = async () =>
         const streamerClips = await getClipsStreamer(streamerID);
         console.log(streamerClips);
         clips.push(...streamerClips);
+    }
+}
+
+
+const getClipsGame = async (id) =>
+{
+    try
+    {
+        const url = "https://api.twitch.tv/helix/clips?"
+            + new URLSearchParams
+            (
+                {
+                    "game_id": id.toString(),
+                    "started_at": startDate,
+                    "first": "20" // amount of clips to get (max is 100)
+                }
+            )
+        const response = await fetch
+        (
+            url,
+            {
+                headers:
+                {
+                    "Authorization": `Bearer ${twitchAuthToken}`,
+                    "Client-Id": twitchClientID
+                }
+            }
+        );
+        const responseJSON = await response.json();
+        return responseJSON.data;
+    }
+    catch (err)
+    {
+        console.log("failed to get game clips for: " + id);
+        console.error(err);
+    }
+}
+
+
+const getClipsGames = async () =>
+{
+    console.log("foiwbfoeiwnfowinfewoinf");
+    for (var i=0; i < gamesData.length; i++)
+    {
+        const gameID = gamesData[i].id;
+        const gameClips = await getClipsGame(gameID);
+        console.log(gameClips);
+        clips.push(...gameClips);
     }
 }
 
@@ -186,7 +270,9 @@ async function getClips()
 {
     await setTwitchAuthToken();
     await setStreamersInfo();
+    await setGamesInfo();
     await getClipsStreamers();
+    await getClipsGames();
     sortClipsViewCount(clips);
     console.log(clips);
 }
@@ -225,8 +311,10 @@ function prevClip()
     setClipSource();
 }
 
-
+// *** RUN *** //
 initializeClips();
+
+// *** INPUT *** //
 document.addEventListener
 (
     "keydown",
@@ -237,4 +325,3 @@ document.addEventListener
             else if (keyName === "ArrowUp") prevClip();
         }
 )
-
