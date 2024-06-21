@@ -12,3 +12,11 @@
 - add auto go to next clip
     - don't have direct access to javascript functions on video player.
     - BUT we do have the duration of the clip returned in it's data, add a timeout that moves to next clip after this duration.
+
+- improve timer
+    - we can use system clock for more accurate timing. 
+    - but main problem is that the timing doesn't take into consideration load time of the clip.
+        - we could add a fixed amount of time to make up for predicted delay - not very clean solution at all. 
+            - could maybe calculate based on network connection? still janky af.
+        - is there a way we can detect when clip starts playing without player function access?
+            - inspect player html output see if we can use something there.

@@ -30,6 +30,7 @@ let gamesList =
 // settings
 let dateRange = 10; // how far back in days to get clips from
 const domain = "localhost";
+const timerAdd = 1.5; // time to add to clip timer to make up for loading the clip (has to be a better way)
 
 // mechanical
 const twitchClientID = "mpu6gc2jcq0iibqrji7exdd69m64qo";
@@ -40,6 +41,7 @@ let startDate = new Date(currentDate - (1000 * 60 * 60 * 24 * dateRange));
 startDate = startDate.toISOString();
 let clips = [];
 clipTicker = 0;
+let clipTimer;
 
 const setTwitchAuthToken = async () =>
 {
@@ -296,6 +298,7 @@ async function initializeClips()
 {
     await getClips();
     setClipSource();
+    setClipTimer(clips[clipTicker].duration);
 }
 
 function nextClip()
@@ -303,12 +306,29 @@ function nextClip()
     clipTicker += 1;
     if (clipTicker > clips.length-1) clipTicker = 0;
     setClipSource();
+    setClipTimer(clips[clipTicker].duration);
 }
 function prevClip()
 {
     clipTicker -= 1;
     if (clipTicker < 0) clipTicker = clips.length-1;
     setClipSource();
+    setClipTimer(clips[clipTicker].duration);
+}
+
+function setClipTimer(seconds)
+{
+    seconds += timerAdd;
+    const milliseconds = seconds * 1000;
+    clearTimeout(clipTimer);
+    clipTimer = setTimeout
+    ( 
+        () =>
+        {
+            nextClip();
+        },
+        milliseconds
+    );
 }
 
 // *** RUN *** //
