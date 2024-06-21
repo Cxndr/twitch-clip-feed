@@ -1,0 +1,12 @@
+- instead of getting clips and sorting by views:
+    - get way more clips.
+    - figure out average views for channel.
+    - get clips above average for channel within date range.
+    - random selection of above average clips.
+    - will this work? are clips returned only by largest views? if so we can just evenlt distribute clips amongest listed streamers.
+
+- add audio compressor
+    - have setting specifically for streamers who distort their mic (dantes, tyler1) which reduces output gain.
+- add auto go to next clip
+    - don't have direct access to javascript functions on video player.
+    - BUT we do have the duration of the clip returned in it's data, add a timeout that moves to next clip after this duration.
