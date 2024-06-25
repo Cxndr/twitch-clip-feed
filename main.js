@@ -42,6 +42,10 @@ startDate = startDate.toISOString();
 let clips = [];
 clipTicker = 0;
 let clipTimer;
+let lastScroll = performance.now();
+let scrollDir = 0;
+let scrollIdleTime = 300; // time in ms to allow retrigger of scroll event.
+let idleTimePassed = false;
 
 const setTwitchAuthToken = async () =>
 {
@@ -331,6 +335,7 @@ function setClipTimer(seconds)
     );
 }
 
+
 // *** RUN *** //
 initializeClips();
 
@@ -344,4 +349,27 @@ document.addEventListener
             if (keyName === "ArrowDown") nextClip();
             else if (keyName === "ArrowUp") prevClip();
         }
-)
+);
+
+document.addEventListener
+(
+    "wheel",
+    (event) =>
+        {
+            idleTimePassed = false;
+            if (performance.now > lastScroll + scrollIdleTime) {idleTimePassed = true};
+            console.log(idleTimePassed);
+            if (event.deltaY < 0 && (idleTimePassed === true || scrollDir === 1))   
+            {
+                lastScroll = performance.now();
+                scrollDir = 0;
+                prevClip();
+            }
+            else if (event.deltaY > 0 && (idleTimePassed === true || scrollDir === 0))
+            {
+                lastsScroll = performance.now();
+                scrollDir = 1;
+                nextClip();
+            }            
+        }
+);

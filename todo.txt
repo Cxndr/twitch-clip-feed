@@ -20,3 +20,7 @@
             - could maybe calculate based on network connection? still janky af.
         - is there a way we can detect when clip starts playing without player function access?
             - inspect player html output see if we can use something there.
+
+- add loading timer while clips load (takes a few seconds)
+
+- make work in fullscreen (do we need to do fake fullscreen to stop paying taking focus?)
