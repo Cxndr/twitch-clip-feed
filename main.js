@@ -267,6 +267,11 @@ const getClipsGames = async () =>
     }
 }
 
+function removeDuplicates(arr)
+{
+
+}
+
 const sortClipsViewCount = (clips) => 
 {
     clips.sort( function(a,b){ return b.view_count - a.view_count; } );
@@ -279,6 +284,7 @@ async function getClips()
     await setGamesInfo();
     await getClipsStreamers();
     await getClipsGames();
+    clips = removeDuplicates(clips);
     sortClipsViewCount(clips);
     console.log(clips);
 }
@@ -304,6 +310,7 @@ async function initializeClips()
     setClipSource();
     setClipTimer(clips[clipTicker].duration);
 }
+
 
 function nextClip()
 {

@@ -9,9 +9,6 @@
 
 - add audio compressor
     - have setting specifically for streamers who distort their mic (dantes, tyler1) which reduces output gain.
-- add auto go to next clip
-    - don't have direct access to javascript functions on video player.
-    - BUT we do have the duration of the clip returned in it's data, add a timeout that moves to next clip after this duration.
 
 - improve timer
     - we can use system clock for more accurate timing. 
@@ -23,4 +20,13 @@
 
 - add loading timer while clips load (takes a few seconds)
 
-- make work in fullscreen (do we need to do fake fullscreen to stop paying taking focus?)
+- make work in fullscreen (do we need to do fake fullscreen to stop player taking focus?)
+
+
+
+
+****** DONE ******
+
+- add auto go to next clip
+    - don't have direct access to javascript functions on video player.
+    - BUT we do have the duration of the clip returned in it's data, add a timeout that moves to next clip after this duration.
