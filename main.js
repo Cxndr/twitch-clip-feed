@@ -268,13 +268,28 @@ const getClipsGames = async () =>
 }
 
 function removeDuplicates(arr)
+// this can be made faster but potentially less reliable by sorting first 
+// and comparing to arr[i-1].id instead.
 {
-
+    unique = [];
+    for (let i=0; i < arr.length; i++)
+    {
+        let addItem = true;
+        if (i > 0)
+        {
+            for (let j=0; j < unique.length; j++)
+            {
+                if (unique[j].id === arr[i].id) addItem = false;    
+            }
+        }
+        if (addItem === true) unique.push(arr[i]);
+    }
+    return unique;
 }
 
-const sortClipsViewCount = (clips) => 
+const sortClipsViewCount = (clips_arr) => 
 {
-    clips.sort( function(a,b){ return b.view_count - a.view_count; } );
+    clips_arr.sort( function(a,b){ return b.view_count - a.view_count; } );
 }
 
 async function getClips()
