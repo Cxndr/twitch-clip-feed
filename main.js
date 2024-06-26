@@ -316,16 +316,31 @@ function getClipSource(clipID)
 
 function setClipSource()
 {
-    document.getElementById('clip-player').src = getClipSource(clips[clipTicker].id)
+    document.getElementById('twitch-player').src = getClipSource(clips[clipTicker].id)
+}
+
+const playerLoader = document.querySelector("#player-loading");
+const playerIframe = document.querySelector("#twitch-player");
+function displayPlayerloading()
+{
+    console.log("SETTING LOADER VISIBLE");
+    playerLoader.classList.add("display");
+    playerIframe.classList.remove("display");
+}
+function hidePlayerLoading()
+{
+    playerLoader.classList.remove("display");
+    playerIframe.classList.add("display");
 }
 
 async function initializeClips()
 {
+    displayPlayerloading();
     await getClips();
     setClipSource();
     setClipTimer(clips[clipTicker].duration);
+    hidePlayerLoading();
 }
-
 
 function nextClip()
 {
@@ -356,6 +371,8 @@ function setClipTimer(seconds)
         milliseconds
     );
 }
+
+
 
 
 // *** RUN *** //

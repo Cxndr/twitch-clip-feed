@@ -1,0 +1,46 @@
+#player-loading
+{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 5px solid #d3d3d3;
+    border-top: 6px solid   #763272;
+    border-radius: 100%;
+    visibility: hidden;
+    animation: spin 1s infinite linear;
+}
+#player-loading.display
+{
+    visibility: visible;
+}
+
+@keyframes spin
+{
+    from 
+    {
+        transform: rotate(0deg);
+    }
+    to
+    {
+        transform: rotate(360deg);
+    }
+}
+
+#clip-player
+{
+    height: 700px;
+    width: 800px;
+}
+
+#twitch-player
+{
+    height: 700px;
+    width:  800px;
+    visibility: hidden;
+}
+#twitch-player.display
+{
+    visibility: visible;
+}
